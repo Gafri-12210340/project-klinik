@@ -15,13 +15,13 @@ class SpesialisDokterController extends BaseController
     
     public function index()
     {
-        return view('spesialisdokter/table');       
+        return view('backend/spesialisdokter/table');       
     }
     public function all(){
         $kgm = SpesialisDokterModel::view();
          
         return (new Datatable($kgm))
-        ->setFieldFilter([ 'nama_depan'])
+        ->setFieldFilter([ 'kota', 'nama'])
         ->draw();
     }
     public function show($id){
@@ -35,6 +35,7 @@ class SpesialisDokterController extends BaseController
 
         $id =  $mm -> insert([
             'dokter_id'       => $this->request->getVar('dokter_id'),
+            'spesialis_id'       => $this->request->getVar('spesialis_id'),
         ]);
         return $this->response->setJSON(['id' => $id])
         ->setStatusCode(intval($id)> 0 ? 200 : 406);  
@@ -48,6 +49,7 @@ class SpesialisDokterController extends BaseController
         
         $hasil = $mm->update($id,[
             'dokter_id'       => $this->request->getVar('dokter_id'),
+            'spesialis_id'       => $this->request->getVar('spesialis_id'),
         ]);
         return $this->response->setJSON(['result'=>$hasil]);
     }

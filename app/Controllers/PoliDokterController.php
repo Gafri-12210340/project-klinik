@@ -15,13 +15,13 @@ class PoliDokterController extends BaseController
     
     public function index()
     {
-        return view('polidokter/table');       
+        return view('backend/polidokter/table');       
     }
     public function all(){
         $kgm = PoliDokterModel::view();
          
         return (new Datatable($kgm))
-        ->setFieldFilter([ 'nama','nama_depan'])
+        ->setFieldFilter([ 'deskripsi','nama_depan'])
         ->draw();
     }
     public function show($id){

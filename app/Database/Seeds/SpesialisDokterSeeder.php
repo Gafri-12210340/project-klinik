@@ -12,6 +12,7 @@ class SpesialisDokterSeeder extends Seeder
         $r = (int)(new SpesialisDokterModel())->insert([
             'dokter_id' => 1,
             'spesialis_id' => 1,
+
         ]);
 
         echo "hasil insert $r";

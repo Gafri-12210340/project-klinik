@@ -82,15 +82,15 @@ class PetugasController extends BaseController
     }
 
     public function index(){
-        return view('petugas/table');
+        return view('backend/petugas/table');
     }
       
     public function all(){
         $pm = new PetugasModel();
-        $pm->select('id, email, nama_lengkap, sandi');
+        $pm->select('id, email, nama_lengkap, sandi, level, reset_token');
 
         return (new Datatable( $pm ))
-                ->setFieldFilter(['email', 'nama_lengkap', 'sandi'])
+                ->setFieldFilter(['email', 'nama_lengkap', 'sandi', 'level', 'reset_token'])
                 ->draw();
     }
 
@@ -109,9 +109,13 @@ class PetugasController extends BaseController
             'email'      => $this->request->getvar('email'),
             'nama_lengkap'     => $this->request->getvar('nama_lengkap'),
             'sandi'    => $this->request->getvar('sandi'),
-           
-           
-        ]);
+            'level'    => $this->request->getvar('level'),
+            'reset_token'    => $this->request->getvar('reset_token'),
+           ]);
+
+           if($id > 0){
+            $this->simpanFile($id);
+        }
         return $this->response->setJSON(['id' => $id])
                     ->setStatusCode( intval($id) > 0 ? 200 : 406 );
     }
@@ -127,6 +131,8 @@ class PetugasController extends BaseController
             'email'      => $this->request->getVar('email'),
             'nama_lengkap'     => $this->request->getVar('nama_lengkap'),
             'sandi'    => $this->request->getVar('sandi'),
+            'level'    => $this->request->getvar('level'),
+            'reset_token'    => $this->request->getvar('reset_token'),
          
         ]);
         return $this->response->setJSON(['result'=>$hasil]);
@@ -137,6 +143,36 @@ class PetugasController extends BaseController
         $id     = $this->request->getVar('id');
         $hasil  = $pm->delete($id);
         return $this->response->setJSON(['result' => $hasil ]);
+    }
+
+    private function simpanFile($id){
+        $file = $this->request->getFile('berkas');
+
+        if( $file->hasMoved() == false ){
+            $direktori = WRITEPATH . 'uploads/petugas';
+            if(file_exists($direktori) == false){
+                @mkdir($direktori);
+            }
+
+            $file->store('petugas', $id . '.jpg');
+        }
+
+
+    }
+
+    public function berkas($id){
+        $am = new PetugasModel();
+        $dt = $am->find($id);
+        if($dt == null)throw PageNotFoundException::forPageNotFound();
+
+        $path = WRITEPATH . 'uploads/petugas/' . $id . '.jpg';
+        if(file_exists($path) == false){
+            throw PageNotFoundException::forPageNotFound();
+        }
+
+        echo file_get_contents($path);
+        return $this->response->setHeader('Content-type', 'image/jpeg')
+                    ->sendBody();
     }
 
 }   

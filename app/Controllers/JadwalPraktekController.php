@@ -11,15 +11,15 @@ use function PHPUnit\Framework\returnself;
 class JadwalPraktekController extends BaseController
 {
     public function index(){
-        return view('jadwalpraktek/table');
+        return view('backend/jadwalpraktek/table');
     }
 
     public function all(){
         $pm = new JadwalPraktekModel();
-        $pm->select('id, polidokter_id, hari , jam_mulai');
+        $pm->select('id, polidokter_id, hari , jam_mulai, jam_selesai');
 
         return (new Datatable( $pm ))
-                ->setFieldFilter(['poli_id', 'hari', 'jam_mulai'])
+                ->setFieldFilter(['poli_id', 'hari', 'jam_mulai', 'jam_selesai'])
                 ->draw();
     }
 
@@ -37,6 +37,7 @@ class JadwalPraktekController extends BaseController
             'polidokter_id'      => $this->request->getvar('polidokter_id'),
             'hari'    => $this->request->getvar('hari'),
             'jam_mulai'    => $this->request->getvar('jam_mulai'),
+            'jam_selesai'    => $this->request->getvar('jam_selesai'),
             
             
         ]);
@@ -55,6 +56,7 @@ class JadwalPraktekController extends BaseController
             'polidokter_id'      => $this->request->getVar('polidokter_id'),
             'hari'    => $this->request->getVar('hari'),
             'jam_mulai'    => $this->request->getvar('jam_mulai'),
+            'jam_selesai'    => $this->request->getvar('jam_selesai'),
         ]);
         return $this->response->setJSON(['result'=>$hasil]);
     }

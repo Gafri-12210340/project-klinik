@@ -40,5 +40,13 @@ class RekamMedisModel extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    static function view(){
+        return (new RekamMedisModel())
+                ->join('pendaftarankonsultasi', 'pendaftarankonsultasi.id=pendaftarankonsultasi_id')
+                ->join('dokter', 'dokter.id=dokter_id')
+                ->select('rekammedis.*, pendaftarankonsultasi.tgl,dokter.nama_depan');
+                
+    }
+
     
 }

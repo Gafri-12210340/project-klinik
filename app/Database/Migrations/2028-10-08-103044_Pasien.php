@@ -23,7 +23,7 @@ class Pasien extends Migration
         'no_telp'       => ['type' =>'varchar','constraint' =>17,  'null'   =>true],
         'email'         => ['type' =>'varchar','constraint'=>128,'null'     =>true],
         'golongan_darah'=> ['type' =>'enum("B","A")',              'null'   =>true],
-        'foto'          => ['type' =>'varchar','constraint' =>255, 'null'   =>true],
+        'foto'          => ['type' =>'varbinary','constraint' =>255, 'null'   =>true],
         'sandi'         => ['type' =>'varchar', 'constraint'=>60,  'null'   =>true],
         'token_reset'   => ['type' =>'varchar', 'constraint'=>10,  'null'   =>true],
         'created_at'    =>['type'=>'datetime', 'null'=>true],

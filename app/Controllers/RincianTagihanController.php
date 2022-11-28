@@ -13,7 +13,7 @@ class RincianTagihanController extends BaseController
     
     public function index()
     {
-        return view('rinciantagihan/table');       
+        return view('backend/rinciantagihan/table');       
     }
     public function all(){
         $mm = RincianTagihanModel::view();

@@ -82,15 +82,15 @@ class PasienController extends BaseController
     }
 
     public function index(){
-        return view('pasien/table');
+        return view('backend/pasien/table');
     }
       
     public function all(){
         $pm = new PasienModel();
-        $pm->select('id, nama');
+        $pm->select('id, nama, nama_belakang, no_rekammedik, nik, jenis_kelamin, tgl_lahir, tempat_lahir, alamat, kota, no_telp, email, golongan_darah, sandi, token_reset, ');
 
         return (new Datatable( $pm ))
-                ->setFieldFilter(['nama'])
+                ->setFieldFilter(['nama', 'nama_belakang', 'no_rekammedik', 'nik', 'jenis_kelamin', 'tgl_lahir', 'tempat_lahir', 'alamat', 'kota', 'no_telp', 'email', 'golongan_darah', 'sandi', 'token_reset',])
                 ->draw();
     }
 
@@ -103,13 +103,28 @@ class PasienController extends BaseController
     
     public function store(){
         $pm     = new PasienModel();
-        $sandi  = $this->request->getvar('sandi');
 
         $id = $pm->insert([
             'nama'      => $this->request->getvar('nama'),
-           
-           
+            'nama_belakang'      => $this->request->getvar('nama_belakang'),
+            'no_rekammedik'      => $this->request->getvar('no_rekammedik'),
+            'nik'      => $this->request->getvar('nik'),
+            'jenis_kelamin'      => $this->request->getvar('jenis_kelamin'),
+            'tgl_lahir'      => $this->request->getvar('tgl_lahir'),
+            'tempat_lahir'      => $this->request->getvar('tempat_lahir'),
+            'alamat'      => $this->request->getvar('alamat'),
+            'kota'      => $this->request->getvar('kota'),
+            'no_telp'      => $this->request->getvar('no_telp'),
+            'email'      => $this->request->getvar('email'),
+            'golongan_darah'      => $this->request->getvar('golongan_darah'),
+            'sandi'      => $this->request->getvar('sandi'),
+            'token_reset'      => $this->request->getvar('token_reset'),
+          
         ]);
+        if($id > 0){
+            $this->simpanFile($id);
+        }
+
         return $this->response->setJSON(['id' => $id])
                     ->setStatusCode( intval($id) > 0 ? 200 : 406 );
     }
@@ -123,6 +138,21 @@ class PasienController extends BaseController
 
         $hasil  = $pm->update($id, [
             'nama'      => $this->request->getVar('nama'),
+            'nama_belakang'      => $this->request->getvar('nama_belakang'),
+            'no_rekammedik'      => $this->request->getvar('no_rekammedik'),
+            'nik'      => $this->request->getvar('nik'),
+            'jenis_kelamin'      => $this->request->getvar('jenis_kelamin'),
+            'tgl_lahir'      => $this->request->getvar('tgl_lahir'),
+            'tempat_lahir'      => $this->request->getvar('tempat_lahir'),
+            'alamat'      => $this->request->getvar('alamat'),
+            'kota'      => $this->request->getvar('kota'),
+            'no_telp'      => $this->request->getvar('no_telp'),
+            'email'      => $this->request->getvar('email'),
+            'golongan_darah'      => $this->request->getvar('golongan_darah'),
+            'sandi'      => $this->request->getvar('sandi'),
+            'token_reset'      => $this->request->getvar('token_reset'),
+            
+
          
         ]);
         return $this->response->setJSON(['result'=>$hasil]);
@@ -135,5 +165,35 @@ class PasienController extends BaseController
         return $this->response->setJSON(['result' => $hasil ]);
     }
 
-}   
+    private function simpanFile($id){
+        $file = $this->request->getFile('berkas');
+
+        if( $file->hasMoved() == false ){
+            $direktori = WRITEPATH . 'uploads/pasien';
+            if(file_exists($direktori) == false){
+                @mkdir($direktori);
+            }
+
+            $file->store('pasien', $id . '.jpg');
+        }
+
+
+    }
+
+    public function berkas($id){
+        $am = new PasienModel();
+        $dt = $am->find($id);
+        if($dt == null)throw PageNotFoundException::forPageNotFound();
+
+        $path = WRITEPATH . 'uploads/pasien/' . $id . '.jpg';
+        if(file_exists($path) == false){
+            throw PageNotFoundException::forPageNotFound();
+        }
+
+        echo file_get_contents($path);
+        return $this->response->setHeader('Content-type', 'image/jpeg')
+                    ->sendBody();
+    }
+
+}
     

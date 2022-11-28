@@ -14,6 +14,8 @@ class PetugasSeeder extends Seeder
            'email' => 'gafrii@gmail.com',
             'nama_lengkap' => 'gafri gangtengs',
             'sandi' => password_hash('gafrip',PASSWORD_BCRYPT),
+            'level' => 'K',
+            'reset_token' => '123',
        ]);
        echo "hasil id = $id";
     }

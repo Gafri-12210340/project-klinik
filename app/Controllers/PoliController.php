@@ -11,7 +11,7 @@ use function PHPUnit\Framework\returnself;
 class PoliController extends BaseController
 {
     public function index(){
-        return view('Poli/table');
+        return view('backend/Poli/table');
     }
 
     public function all(){

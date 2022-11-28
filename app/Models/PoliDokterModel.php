@@ -44,6 +44,6 @@ class PoliDokterModel extends Model
         return (new PoliDokterModel())
         ->join('poli', 'poli.id=poli_id')
         ->join('dokter', 'dokter.id=dokter_id')
-        ->select('polidokter.*,poli.nama , dokter.nama_depan,');
+        ->select('polidokter.*,poli.deskripsi , dokter.nama_depan,');
     }
 }

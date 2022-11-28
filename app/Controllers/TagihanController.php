@@ -13,7 +13,7 @@ class TagihanController extends BaseController
     
     public function index()
     {
-        return view('tagihan/table');       
+        return view('backend/tagihan/table');       
     }
     public function all(){
         $mm = TagihanModel::view();

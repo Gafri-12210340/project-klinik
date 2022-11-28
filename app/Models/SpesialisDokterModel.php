@@ -43,6 +43,8 @@ class SpesialisDokterModel extends Model
     static function view(){
         return (new SpesialisDokterModel())
         ->join('dokter', 'dokter.id=dokter_id')
-        ->select('spesialisdokter.*,dokter.nama_depan,');
+        ->join('spesialis', 'spesialis.id=spesialis_id')
+        ->select('spesialisdokter.*,dokter.kota, spesialis.nama,');
+        
     }
 }

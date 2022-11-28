@@ -10,8 +10,8 @@ class DokterSeeder extends Seeder
     public function run()
     {
         $r = (int)(new DokterModel())->insert([
-            'nama_depan' => 'nana',
-            'nama_belakang'  => 'mobelejen',
+            'nama_depan' => 'kolas',
+            'nama_belakang'  => 'ganteng',
             'gelar_depan'    => 'M.kom',
             'gelar_belakang' => 'M.sh',
             'jenis_kelamin'  => 'P',
@@ -26,7 +26,7 @@ class DokterSeeder extends Seeder
             'sandi'          => password_hash('12345678', PASSWORD_BCRYPT),
             'token_reset'    => '123',
             'no_izin_praktek' => '32',
-            'tgl_sk_izin'      => '50',
+            'tgl_sk_izin'      => '2022-12-12',
         ]);
 
         echo "hasil insert $r";

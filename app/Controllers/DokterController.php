@@ -82,15 +82,15 @@ class DokterController extends BaseController
     }
 
     public function index(){
-        return view('dokter/table');
+        return view('backend/dokter/table');
     }
       
     public function all(){
         $pm = new DokterModel();
-        $pm->select('id, nama_depan, email, jenis_kelamin');
+        $pm->select('id, nama_depan, nama_belakang, gelar_depan,  jenis_kelamin, tempat_lahir, tgl_lahir, alamat, kota, no_telp_rmh, no_hp, no_wa, email, sandi, no_izin_praktek, tgl_sk_izin,');
 
         return (new Datatable( $pm ))
-                ->setFieldFilter(['nama_depan', 'email', 'jenis_kelamin'])
+                ->setFieldFilter(['nama_depan', 'nama_belakang', 'gelar_depan',  'jenis_kelamin', 'tempat_lahir', 'tgl_lahir', 'alamat', 'kota', 'no_telp_rmh', 'no_hp', 'no_wa', 'email', 'sandi', 'no_izin_praktek', 'tgl_sk_izin',])
                 ->draw();
     }
 
@@ -107,10 +107,21 @@ class DokterController extends BaseController
 
         $id = $pm->insert([
             'nama_depan'      => $this->request->getvar('nama_depan'),
-            'email'     => $this->request->getvar('email'),
+            'nama_belakang'      => $this->request->getvar('nama_belakang'),
+            'gelar_depan'      => $this->request->getvar('gelar_depan'),
             'jenis_kelamin'    => $this->request->getvar('jenis_kelamin'),
-           
-           
+            'tempat_lahir'      => $this->request->getvar('tempat_lahir'),
+            'tgl_lahir'      => $this->request->getvar('tgl_lahir'),
+            'alamat'      => $this->request->getvar('alamat'),
+            'kota'      => $this->request->getvar('kota'),
+            'no_telp_rmh'      => $this->request->getvar('no_telp_rmh'),
+            'no_hp'      => $this->request->getvar('no_hp'),
+            'no_wa'      => $this->request->getvar('no_wa'),
+            'email'     => $this->request->getvar('email'),
+            'sandi'      =>password_hash($sandi, PASSWORD_BCRYPT),
+            'no_izin_praktek'      => $this->request->getvar('no_izin_praktek'),
+            'tgl_sk_izin'      => $this->request->getvar('tgl_sk_izin'),
+             
         ]);
         return $this->response->setJSON(['id' => $id])
                     ->setStatusCode( intval($id) > 0 ? 200 : 406 );
@@ -118,15 +129,29 @@ class DokterController extends BaseController
 
     public function update(){
         $pm     = new DokterModel();
+     
         $id     = (int)$this->request->getvar('id');
+        $sandi  = $this->request->getvar('sandi');
 
         if( $pm->find($id) == null )
             throw PageNotFoundException::forPageNotFound();
 
         $hasil  = $pm->update($id, [
-            'nama_depan'      => $this->request->getVar('nama_depan'),
-            'email'     => $this->request->getVar('email'),
-            'jenis_kelamin'    => $this->request->getVar('jenis_kelamin'),
+            'nama_depan'      => $this->request->getvar('nama_depan'),
+            'nama_belakang'      => $this->request->getvar('nama_belakang'),
+            'gelar_depan'      => $this->request->getvar('gelar_depan'),
+            'jenis_kelamin'    => $this->request->getvar('jenis_kelamin'),
+            'tempat_lahir'      => $this->request->getvar('tempat_lahir'),
+            'tgl_lahir'      => $this->request->getvar('tgl_lahir'),
+            'alamat'      => $this->request->getvar('alamat'),
+            'kota'      => $this->request->getvar('kota'),
+            'no_telp_rmh'      => $this->request->getvar('no_telp_rmh'),
+            'no_hp'      => $this->request->getvar('no_hp'),
+            'no_wa'      => $this->request->getvar('no_wa'),
+            'email'     => $this->request->getvar('email'),
+            'sandi'      =>password_hash($sandi, PASSWORD_BCRYPT),
+            'no_izin_praktek'      => $this->request->getvar('no_izin_praktek'),
+            'tgl_sk_izin'      => $this->request->getvar('tgl_sk_izin'),
          
         ]);
         return $this->response->setJSON(['result'=>$hasil]);
@@ -139,5 +164,4 @@ class DokterController extends BaseController
         return $this->response->setJSON(['result' => $hasil ]);
     }
 
-}   
-    
+}

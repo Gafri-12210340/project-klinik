@@ -11,15 +11,14 @@ use function PHPUnit\Framework\returnself;
 class RekamMedisController extends BaseController
 {
     public function index(){
-        return view('rekammedis/table');
+        return view('backend/rekammedis/table');
     }
 
     public function all(){
-        $pm = new RekamMedisModel();
-        $pm->select('id, diagnosa, tindakan, resep_obat');
-
+        $pm = RekamMedisModel::view();
+        
         return (new Datatable( $pm ))
-                ->setFieldFilter(['diagnosa, tindakan, resep_obat'])
+                ->setFieldFilter(['tgl, diagnosa, tindakan, resep_obat, nama_depan'])
                 ->draw();
     }
 
@@ -32,12 +31,13 @@ class RekamMedisController extends BaseController
 
     public function store(){
         $pm     = new RekamMedisModel();
-        $sandi  = $this->request->getvar('sandi');
 
         $id = $pm->insert([
+            'pendaftarankonsultasi_id'      => $this->request->getvar('pendaftarankonsultasi_id'),
             'diagnosa'      => $this->request->getvar('diagnosa'),
             'tindakan'      => $this->request->getvar('tindakan'),
             'resep_obat'    => $this->request->getvar('resep_obat'),
+            'dokter_id'    => $this->request->getvar('dokter_id'),
         ]);
         return $this->response->setJSON(['id' => $id])
                     ->setStatusCode( intval($id) > 0 ? 200 : 406 );
@@ -51,9 +51,11 @@ class RekamMedisController extends BaseController
             throw PageNotFoundException::forPageNotFound();
 
         $hasil  = $pm->update($id, [
+            'pendaftarankonsultasi_id'      => $this->request->getvar('pendaftarankonsultasi_id'),
             'diagnosa'      => $this->request->getvar('diagnosa'),
             'tindakan'      => $this->request->getvar('tindakan'),
             'resep_obat'    => $this->request->getvar('resep_obat'),
+            'dokter_id'    => $this->request->getvar('dokter_id'),
         ]);
         return $this->response->setJSON(['result'=>$hasil]);
     }

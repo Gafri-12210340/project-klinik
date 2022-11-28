@@ -47,7 +47,7 @@ $routes->group('/login', ['filter' => 'ceklogin'], function(RouteCollection $rou
 });
 $routes->delete('login', 'DokterController::logout');
 
-$routes->group('dokter',['filter'=> 'login'], function(RouteCollection $routes){
+$routes->group('dokter', ['filter'=> 'login'],function(RouteCollection $routes){
     $routes->get('/', 'DokterController::index');
     $routes->post('/', 'DokterController::store');
     $routes->patch('/', 'DokterController::update');
@@ -112,6 +112,7 @@ $routes->group('petugas',['filter'=> 'login'], function(RouteCollection $routes)
     $routes->post('/', 'PetugasController::store');
     $routes->patch('/', 'PetugasController::update');
     $routes->delete('/', 'PetugasController::delete');
+    $routes->get('(:num)/berkas.png', 'PetugasController::berkas/$1');
     $routes->get('(:num)', 'PetugasController::show/$1');
     $routes->get('all', 'PetugasController::all');
 
@@ -122,6 +123,7 @@ $routes->group('pasien',['filter'=> 'login'], function(RouteCollection $routes){
     $routes->post('/', 'PasienController::store');
     $routes->patch('/', 'PasienController::update');
     $routes->delete('/', 'PasienController::delete');
+    $routes->get('(:num)/berkas.png', 'PetugasController::berkas/$1');
     $routes->get('(:num)', 'PasienController::show/$1');
     $routes->get('all', 'PasienController::all');
 
@@ -174,6 +176,16 @@ $routes->group('rinciantagihan', function(RouteCollection $routes){
     $routes->delete('/', 'RincianTagihanController::delete');
     $routes->get('(:num)', 'RincianTagihanController::show/$1');
     $routes->get('all', 'RincianTagihanController::all');
+
+});
+
+$routes->group('dashboard', function(RouteCollection $routes){
+    $routes->get('/', 'DashboardController::index');
+    $routes->post('/', 'DashboardController::store');
+    $routes->patch('/', 'DashboardController::update');
+    $routes->delete('/', 'DashboardController::delete');
+    $routes->get('(:num)', 'DashboardController::show/$1');
+    $routes->get('all', 'DashboardController::all');
 
 });
 

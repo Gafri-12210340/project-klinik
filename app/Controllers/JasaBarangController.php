@@ -13,7 +13,7 @@ class JasaBarangController extends BaseController
     
     public function index()
     {
-        return view('jasabarang/table');       
+        return view('backend/jasabarang/table');       
     }
     public function all(){
         $mm = new JasaBarangModel();

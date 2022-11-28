@@ -13,7 +13,7 @@ class SpesialisController extends BaseController
 {
 
     public function index(){
-        return view('spesialis/table');
+        return view('backend/spesialis/table');
     }
 
     public function all(){

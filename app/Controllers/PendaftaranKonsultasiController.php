@@ -13,13 +13,13 @@ class PendaftaranKonsultasiController extends BaseController
 {
     public function index()
     {
-        return view('pendaftarankonsultasi/table');
+        return view('backend/pendaftarankonsultasi/table');
     }
     public function all(){
         $kgm = PendaftarankonsultasiModel::view();
          
         return (new Datatable($kgm))
-        ->setFieldFilter([ 'tgl' ])
+        ->setFieldFilter([ 'tgl', 'no_antrian', 'berat_badan', 'tinggi_badan', 'temp_badan', 'lingkar_kepala', 'keluhan', ])
         ->draw();
     }
     public function show($id){
@@ -35,6 +35,12 @@ class PendaftaranKonsultasiController extends BaseController
             'jadwalpraktek_id'   => $this->request->getVar('jadwalpraktek_id'),
             'pasien_id'      => $this->request->getVar('pasien_id'),
             'petugas_id'     => $this->request->getVar('petugas_id'),
+            'no_antrian'     => $this->request->getVar('no_antrian'),
+            'berat_badan'     => $this->request->getVar('berat_badan'),
+            'tinggi_badan'     => $this->request->getVar('tinggi_badan'),
+            'temp_badan'     => $this->request->getVar('temp_badan'),
+            'lingkar_kepala'     => $this->request->getVar('lingkar_kepala'),
+            'keluhan'     => $this->request->getVar('keluhan'),
             
 
         ]);
@@ -52,6 +58,12 @@ class PendaftaranKonsultasiController extends BaseController
             'jadwalpraktek_id'   => $this->request->getVar('jadwalpraktek_id'),
             'pasien_id'      => $this->request->getVar('pasien_id'),
             'petugas_id'     => $this->request->getVar('petugas_id'),
+            'no_antrian'     => $this->request->getVar('no_antrian'),
+            'berat_badan'     => $this->request->getVar('berat_badan'),
+            'tinggi_badan'     => $this->request->getVar('tinggi_badan'),
+            'temp_badan'     => $this->request->getVar('temp_badan'),
+            'lingkar_kepala'     => $this->request->getVar('lingkar_kepala'),
+            'keluhan'     => $this->request->getVar('keluhan'),
             
         ]);
     }
